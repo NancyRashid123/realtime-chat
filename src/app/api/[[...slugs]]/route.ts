@@ -5,18 +5,71 @@ import { authMiddleware } from './auth';
 import { Message, realtime } from '@/lib/realtime';
 import z from 'zod';
 
-export const rooms = new Elysia({ prefix: "/room" }).post(
-  "/create",
-  async () => {
-    const roomId = nanoid();
-    await redis.hset(`meta:${roomId}`, {
-      connected: [],
-      createdAt: Date.now()
-    });
-    await redis.expire(`meta:${roomId}`, 60 * 10);
-    return { roomId };
-  }
-).use(authMiddleware).get(
+export const rooms = new Elysia({ prefix: "/room" })
+  .post(
+    "/create",
+    async () => {
+      const roomId = nanoid();
+
+      await redis.hset(`meta:${roomId}`, {
+        connected: [],
+        createdAt: Date.now(),
+      });
+
+      await redis.expire(`meta:${roomId}`, 60 * 10);
+
+      return { roomId };
+    }
+  )
+  .post(
+    "/join",
+    async ({ query, cookie, set }) => {
+      const roomId = query.roomId;
+
+      const meta = await redis.hgetall<{
+        connected: string[];
+        createdAt: number;
+      }>(`meta:${roomId}`);
+
+      if (!meta) {
+        set.status = 404;
+        return { error: "Room does not exist" };
+      }
+
+      const existingToken = cookie.token?.value as string | undefined;
+
+      if (existingToken && meta.connected.includes(existingToken)) {
+        return { success: true };
+      }
+
+      if (meta.connected.length >= 2) {
+        set.status = 403;
+        return { error: "Room is full" };
+      }
+
+      const token = nanoid();
+
+      cookie.token.set({
+        value: token,
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        path: "/",
+      });
+
+      await redis.hset(`meta:${roomId}`, {
+        connected: [...meta.connected, token],
+      });
+
+      return { success: true };
+    },
+    {
+      query: z.object({
+        roomId: z.string(),
+      }),
+    }
+  )
+  .use(authMiddleware).get(
   "/ttl",
   async ({ auth }) => {
    const ttl = await redis.ttl(`meta:${auth.roomId}`)

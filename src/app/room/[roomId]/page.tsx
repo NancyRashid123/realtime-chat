@@ -16,7 +16,7 @@ export default function RoomPage() {
   const [timeRemaining, setTimeRemaining] = useState<number | null>(null);
   const [copyStatus, setCopyStatus] = useState("COPY");
   const [inputValue, setInputValue] = useState("");
-
+  const [joined, setJoined] = useState(false);
   const { username } = useUsername();
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -36,16 +36,43 @@ export default function RoomPage() {
     setTimeout(() => setCopyStatus("COPY"), 2000);
   };
 
-  const { data: ttlData } = useQuery({
-    queryKey: ["ttl", roomId],
-    queryFn: async () => {
-      const res = await api.room.ttl.get({
-        query: { roomId },
-      });
+  const { mutate: joinRoom} = useMutation({
+  mutationFn: async () => {
+    const res = await api.room.join.post(null, {
+      query: { roomId },
+    });
 
-      return res.data;
-    },
-  });
+    if (res.error) {
+      throw new Error("Failed to join room");
+    }
+
+    return res.data;
+  },
+  onSuccess: () => {
+    setJoined(true);
+  },
+  onError: () => {
+    router.push("/?error=room-full");
+  },
+});
+
+useEffect(() => {
+  if (roomId) {
+    joinRoom();
+  }
+}, [roomId]);
+
+  const { data: ttlData } = useQuery({
+  queryKey: ["ttl", roomId],
+  queryFn: async () => {
+    const res = await api.room.ttl.get({
+      query: { roomId },
+    });
+
+    return res.data;
+  },
+  enabled: joined,
+});
 
   useEffect(() => {
     if (ttlData?.ttl !== undefined) {
@@ -75,16 +102,17 @@ export default function RoomPage() {
     return () => clearInterval(interval);
   }, [timeRemaining, router]);
 
-  const { data: messages, refetch } = useQuery({
-    queryKey: ["messages", roomId],
-    queryFn: async () => {
-      const res = await api.messages.get({
-        query: { roomId },
-      });
+ const { data: messages, refetch } = useQuery({
+  queryKey: ["messages", roomId],
+  queryFn: async () => {
+    const res = await api.messages.get({
+      query: { roomId },
+    });
 
-      return res.data;
-    },
-  });
+    return res.data;
+  },
+  enabled: joined,
+});
 
   const { mutate: sendMessage, isPending } = useMutation({
     mutationFn: async ({ text }: { text: string }) => {
@@ -98,7 +126,7 @@ export default function RoomPage() {
   });
 
   useRealtime({
-    channels: [roomId],
+    channels: joined ? [roomId] : [],
     events: ["chat.message", "chat.destroy"],
     onData: ({ event }) => {
       if (event === "chat.message") {
