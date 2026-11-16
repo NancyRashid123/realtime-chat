@@ -1,7 +1,6 @@
-
 # 💬 Real-Time Chat
 
-A real-time messaging application built with **Next.js** and **TypeScript**, featuring live message updates powered by **Upstash Realtime** and a type-safe API layer.
+A real-time messaging application built with Next.js and TypeScript, featuring live message updates powered by Upstash Realtime and a type-safe API layer.
 
 [![Live Demo](https://img.shields.io/badge/Live-Demo-success?style=for-the-badge)](https://realtime-chat-zeta-one.vercel.app/)
 
@@ -9,6 +8,9 @@ A real-time messaging application built with **Next.js** and **TypeScript**, fea
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?logo=tailwindcss&logoColor=white)
 ![Upstash](https://img.shields.io/badge/Upstash-00E9A3?logo=upstash&logoColor=black)
+
+<!-- TODO: add a screenshot or a short GIF of two browser windows chatting in real time -->
+<!-- ![Chat](./docs/chat.gif) -->
 
 ## ✨ Features
 
@@ -23,7 +25,7 @@ A real-time messaging application built with **Next.js** and **TypeScript**, fea
 ## 🧰 Tech Stack
 
 | Area | Technologies |
-|---|---|
+| --- | --- |
 | Framework | Next.js, React, TypeScript |
 | Styling | Tailwind CSS |
 | API | Elysia, Eden |
@@ -47,7 +49,7 @@ A real-time messaging application built with **Next.js** and **TypeScript**, fea
 
 - Node.js
 - npm
-- An Upstash account and a Redis database.
+- An Upstash account and a Redis database
 
 ### Installation
 
@@ -57,8 +59,7 @@ cd realtime-chat
 npm install
 ```
 
-
-## Environment Configuration
+### Environment Configuration
 
 Create a `.env` file in the root directory and add the following variables:
 
@@ -69,7 +70,13 @@ UPSTASH_REDIS_REST_TOKEN="your_upstash_redis_token"
 
 Replace the placeholder values with your actual Upstash Redis credentials.
 
+> ⚠️ Never commit your `.env` file. Make sure it is listed in `.gitignore`.
 
+### Run Locally
+
+```bash
+npm run dev
+```
 
 Open [http://localhost:3000](http://localhost:3000).
 
@@ -82,17 +89,11 @@ npm run start
 
 ## ☁️ Deployment
 
-Deployed on Vercel:
-
-[Live Demo](https://realtime-chat-zeta-one.vercel.app/)
+Deployed on Vercel: [realtime-chat-zeta-one.vercel.app](https://realtime-chat-zeta-one.vercel.app/)
 
 Add the required Upstash environment variables to the Vercel project settings.
 
 ## 👩‍💻 Author
 
-**Nancy Rashid**
-
-[GitHub](https://github.com/NancyRashid123)
-
-[Repository](https://github.com/NancyRashid123/realtime-chat)
+**Nancy Rashid** — [GitHub](https://github.com/NancyRashid123)
 
