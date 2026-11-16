@@ -57,19 +57,19 @@ cd realtime-chat
 npm install
 ```
 
-### Environment Configuration
 
-Create a `.env.local` file in the project root and add the Upstash credentials required by the application.
+## Environment Configuration
 
-Use the exact environment variable names referenced in the source code.
+Create a `.env` file in the root directory and add the following variables:
 
-Never commit private tokens or credentials.
-
-### Run Locally
-
-```bash
-npm run dev
+```env
+UPSTASH_REDIS_REST_URL="your_upstash_redis_url"
+UPSTASH_REDIS_REST_TOKEN="your_upstash_redis_token"
 ```
+
+Replace the placeholder values with your actual Upstash Redis credentials.
+
+
 
 Open [http://localhost:3000](http://localhost:3000).
 
