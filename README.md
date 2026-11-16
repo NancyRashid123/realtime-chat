@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Real-Time Chat
+
+A real-time messaging application built with Next.js and a modern server/data layer. The project focuses on delivering a responsive chat experience with live updates.
+
+## Live Demo
+
+[Open Real-Time Chat](https://realtime-chat-zeta-one.vercel.app/)
+
+## Features
+
+- Real-time messaging experience.
+- User-facing chat interface built with Next.js and React.
+- Data fetching and server-state management with TanStack Query.
+- Input and data validation with Zod.
+- Redis integration through Upstash.
+- Real-time event infrastructure using Upstash Realtime.
+- Typed client/server communication using Elysia and Eden.
+- Responsive interface with Tailwind CSS.
+- Toast notifications for user feedback.
+
+## Tech Stack
+
+- **Framework:** Next.js App Router, React, TypeScript
+- **Styling:** Tailwind CSS
+- **Server/API:** Elysia, Eden
+- **Data & Real-Time Infrastructure:** Upstash Redis, Upstash Realtime
+- **Data Fetching:** TanStack Query
+- **Validation:** Zod
+- **Utilities:** date-fns, nanoid
+- **Deployment:** Vercel
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js
+- npm
+- Upstash Redis credentials and the environment configuration required by the project
+
+### Installation
+
+```bash
+git clone https://github.com/NancyRashid123/realtime-chat.git
+cd realtime-chat
+npm install
+```
+
+### Environment Variables
+
+Create a `.env` file and provide the Upstash Redis and other service credentials required by the application. Refer to the environment-variable references in the source code. Never commit secrets.
+
+### Run Locally
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Production Build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm run start
+```
 
-## Learn More
+## Deployment
 
-To learn more about Next.js, take a look at the following resources:
+The application is deployed on Vercel: [realtime-chat-zeta-one.vercel.app](https://realtime-chat-zeta-one.vercel.app/).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Author
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Nancy Rashid**  
+[GitHub Profile](https://github.com/NancyRashid123)
